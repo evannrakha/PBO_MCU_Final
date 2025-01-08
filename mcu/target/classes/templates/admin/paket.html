@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Paket MCU</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #e0e0e0;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin: 0;
+            text-align: left;
+            flex: 1;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .button-container a {
+            text-decoration: none;
+            text-align: center;
+            background-color: #000;
+            color: #fff;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease, background-color 0.3s ease;
+        }
+
+        .button-container a:hover {
+            background-color: #333;
+            transform: translateY(-5px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #f1f1f1;
+        }
+
+        .actions a {
+            margin: 0 10px;
+            color: #000;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .actions a i {
+            margin-right: 5px;
+        }
+
+        .actions a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            margin-top: 20px;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <div class="header">
+        <h1>Daftar Paket MCU</h1>
+        <div class="button-container">
+            <a href="/admin/dashboard">Dashboard</a>
+            <a href="/admin/paket/add">Tambah Paket</a>
+            <a href="/admin/logout">Logout</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h2>List Paket MCU</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama Paket</th>
+                    <th>Harga</th>
+                    <th>Deskripsi</th>
+                    <th>Jenis Pemeriksaan</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="paket, iterStat : ${listPaket}">
+                    <td th:text="${iterStat.index + 1}"></td>
+                    <td th:text="${paket.namaPaket}"></td>
+                    <td th:text="${paket.hargaPaket}"></td>
+                    <td th:text="${paket.deskripsi}"></td>
+                    <td th:text="${paket.jenis_pemeriksaan}"></td>
+                    <td class="actions">
+                        <!-- Edit Icon -->
+                        <a th:href="@{/admin/paket/edit/{id}(id=${paket.id_paket})}">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <!-- Delete Icon -->
+                        <a th:href="@{/admin/paket/delete/{id}(id=${paket.id_paket})}" onclick="return confirm('Yakin ingin menghapus paket ini?');">
+                            <i class="fas fa-trash"></i> Hapus
+                        </a>
+                    </td>
+                </tr>
+                <tr th:if="${listPaket.empty}">
+                    <td colspan="6" style="text-align: center;">Tidak ada paket MCU yang tersedia.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 MCU Admin Panel</p>
+    </footer>
+</body>
+</html>

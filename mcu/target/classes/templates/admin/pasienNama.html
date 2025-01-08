@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pencarian Pasien Berdasarkan Nama</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden; /* Prevent scrolling */
+        }
+
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://storage.googleapis.com/a1aa/image/6MBL2sfIBQyIOym5ayZvycXOtmNuOA5Xr46du3z9uHHjOD9JA.jpg') no-repeat center center;
+            background-size: cover; /* Cover the entire page */
+            filter: blur(4px); /* Apply blur effect */
+            z-index: 0; /* Ensure background is behind everything */
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative; /* Position relative for z-index */
+            z-index: 2; /* Ensure header is above the background */
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin: 0;
+            text-align: left;
+            flex: 1;
+        }
+
+        .header .button-container {
+            display: flex;
+            gap: 10px; /* Space between buttons */
+        }
+
+        .header button, .header a {
+            padding: 10px 15px;
+            background-color: #000000; /* Bootstrap primary color */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none; /* Remove underline from links */
+            transition: background-color 0.3s ease;
+        }
+
+        .header button:hover, .header a:hover {
+            background-color: #444546; /* Darker shade on hover */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative; /* Position relative for z-index */
+            z-index: 1; /* Ensure content is above the background */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #f1f1f1;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+            margin-top: 20px;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+            position: relative; /* Position relative for z-index */
+            z-index: 2; /* Ensure footer is above the background */
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div> <!-- Full-page background -->
+    
+    <!-- Header Section -->
+    <div class="header">
+        <h1>Pencarian Pasien Berdasarkan Nama</h1>
+        <div class="button-container">
+            <a href="/admin/dashboard">Back</a>
+            <a href="/admin/logout">Logout</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+ <!-- Form Input Nama -->
+        <form th:action="@{/admin/cari/namaPasien}" method="get" class="mb-4">
+            <input type="text" id="nama" name="nama" placeholder="Nama Pasien" required class="form-control">
+            <button type="submit" class="btn btn-primary mt-2">Cari</button>
+        </form>
+
+        <hr>
+
+        <!-- Pesan Jika Nama Tidak Ditemukan -->
+        <div th:if="${message != null}">
+            <p th:text="${message}" style="color: red;"></p>
+        </div>
+
+        <!-- Tabel Hasil Pencarian -->
+        <div th:if="${pasien != null}">
+            <h2>Hasil Pencarian:</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nama</th>
+                        <th>Gender</th>
+                        <th>Umur</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td th:text="${pasien.id}"></td>
+                        <td th:text="${pasien.nama}"></td>
+                        <td th:text="${pasien.gender}"></td>
+                        <td th:text="${pasien.umur}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div th:if="${pasien == null && message == null}">
+            <p>Pasien tidak ditemukan</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Sistem Pencarian Pasien</p>
+    </footer>
+</body>
+</html>
